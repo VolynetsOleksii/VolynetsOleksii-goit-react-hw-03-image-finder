@@ -4,6 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { pixabaySerch } from './PixabaySerch/PixabaySerch';
+import Loader from './Loader/Loader';
+
 
 export class App extends Component {
   state = {
@@ -64,11 +66,12 @@ export class App extends Component {
   };
 
   render() {
-    const { items } = this.state;
+    const { items, isLoading } = this.state;
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSubmit} />
         {items.length > 0 && <ImageGallery allItems={items} />}
+        {isLoading && <Loader />}
         <ToastContainer autoClose={3000} />
       </div>
     );
