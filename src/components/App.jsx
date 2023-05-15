@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { pixabaySerch } from './PixabaySerch/PixabaySerch';
 import Loader from './Loader/Loader';
-
+import { Button } from './Button/Button';
 
 export class App extends Component {
   state = {
@@ -52,6 +52,8 @@ export class App extends Component {
         }));
       } catch (error) {
         toast.error('Oops, something went wrong, please try again');
+      } finally {
+        this.setState({ isLoading: false });
       }
     }
   }
@@ -62,7 +64,13 @@ export class App extends Component {
         'It looks like there are already pictures found for your request, please check if this wil be a new search'
       );
     }
-    this.setState({ searchItem, items: [] });
+    this.setState({ searchItem, items: [], page: 1, isLoading: false });
+  };
+
+  ClickLoadMoreBtn = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
   };
 
   render() {
@@ -70,8 +78,10 @@ export class App extends Component {
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        {items.length > 0 && <ImageGallery allItems={items} />}
-        {isLoading && <Loader />}
+        { isLoading ? <Loader /> : <ImageGallery allItems={items} />}
+        {(items.length === 12 || items.length > 12) && (
+          <Button onClick={this.ClickLoadMoreBtn} />
+        )}
         <ToastContainer autoClose={3000} />
       </div>
     );
