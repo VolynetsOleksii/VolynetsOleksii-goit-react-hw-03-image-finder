@@ -5,12 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { pixabaySerch } from './PixabaySerch/PixabaySerch';
 import Loader from './Loader/Loader';
-import { Button } from './Button/Button';
+import { ButtonLoadMore } from './Button/Button';
 
 export class App extends Component {
   state = {
     searchItem: '',
     page: 1,
+    total: 1,
     items: [],
     isLoading: false,
     isError: false,
@@ -49,11 +50,10 @@ export class App extends Component {
           items: [...prevState.items, ...onlyNeedValues],
           isLoading: false,
           isError: false,
+          total: hits.length,
         }));
       } catch (error) {
         toast.error('Oops, something went wrong, please try again');
-      } finally {
-        this.setState({ isLoading: false });
       }
     }
   }
@@ -74,14 +74,12 @@ export class App extends Component {
   };
 
   render() {
-    const { items, isLoading } = this.state;
+    const { items, isLoading, total } = this.state;
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        { isLoading ? <Loader /> : <ImageGallery allItems={items} />}
-        {(items.length === 12 || items.length > 12) && (
-          <Button onClick={this.ClickLoadMoreBtn} />
-        )}
+        {isLoading ? <Loader /> : <ImageGallery allItems={items} />}
+        {total >= 12 && <ButtonLoadMore onClick={this.ClickLoadMoreBtn} />}
         <ToastContainer autoClose={3000} />
       </div>
     );
