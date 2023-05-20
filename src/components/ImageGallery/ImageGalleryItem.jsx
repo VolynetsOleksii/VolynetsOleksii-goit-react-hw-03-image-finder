@@ -6,7 +6,7 @@ import { ModalImage } from 'components/Modal/Modal.styled';
 
 export class ImageGalleryItem extends Component {
   state = {
-    selectedImg: null,
+    // selectedImg: null,
     showModal: false,
   };
 
@@ -15,9 +15,9 @@ export class ImageGalleryItem extends Component {
       showModal: !showModal,
     }));
   };
-  setSelectedImg = () => {
-    this.setState({ selectedImg: this.props.largeImageURL });
-  };
+  // setSelectedImg = () => {
+  //   this.setState({ selectedImg: this.props.largeImageURL });
+  // };
 
   render() {
     const { webformatURL, largeImageURL, tags } = this.props;
@@ -37,7 +37,7 @@ export class ImageGalleryItem extends Component {
   }
 }
 
-export default ImageGalleryItem;
+// export default ImageGalleryItem;
 
 ImageGalleryItem.propTypes = {
   id: PropTypes.number,
